@@ -1,0 +1,12 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+.DS_Store
+
+.idea/.idea.BibleUpload/.idea/encodings.xml
+
+.idea/.idea.BibleUpload/.idea/
+
+src/.idea/.idea.BibleUpload.dir/.idea/
