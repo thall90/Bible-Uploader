@@ -6,6 +6,7 @@ using System.Linq;
 using BibleUpload.Data.Models.Interfaces;
 using BibleUpload.Services.Interfaces;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace BibleUpload.Services
 {
@@ -16,8 +17,8 @@ namespace BibleUpload.Services
             where TModel : class, ICsvModel 
         {
             using var reader = new StreamReader(path);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-            csv.Configuration.Delimiter = ";";
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = ";" };
+            using var csv = new CsvReader(reader, configuration);
             
             return csv.GetRecords<TModel>().ToList();
         }

@@ -30,6 +30,8 @@ namespace BibleUpload
             CancellationToken cancellationToken = default)
         {
             var models = _parserService.GetRecords<CsvBibleVerse>(Paths.CsvPath);
+            
+            await _esvBibleContext.Database.EnsureCreatedAsync(cancellationToken);
 
             await AddEsvBooksToDb(
                 models,
@@ -104,13 +106,9 @@ namespace BibleUpload
             CancellationToken cancellationToken)
         {
             var chapterLookup = await RetrieveChapterLookup(cancellationToken);
-
-            var verses = models.ToVerseList(
-                bookLookup,
-                chapterLookup);
-            await _esvBibleContext.Verses.AddRangeAsync(
-                verses,
-                cancellationToken);
+            var verses = models.ToVerseList(bookLookup, chapterLookup);
+            
+            await _esvBibleContext.Verses.AddRangeAsync(verses, cancellationToken);
             await _esvBibleContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -118,9 +116,7 @@ namespace BibleUpload
             CancellationToken cancellationToken)
         {
             var bookLookup = await _esvBibleContext.Chapters
-                .ToDictionaryAsync(
-                    x => (x.EsvBookId, x.Number),
-                    cancellationToken);
+                .ToDictionaryAsync(x => (x.EsvBookId, x.Number), cancellationToken);
 
             return bookLookup;
         }

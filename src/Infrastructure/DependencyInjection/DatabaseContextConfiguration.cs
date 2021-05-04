@@ -20,9 +20,14 @@ namespace BibleUpload.Infrastructure.DependencyInjection
             this IServiceCollection serviceCollection,
             IConfiguration configuration)
         {
+            var sqliteConfig = configuration
+                .GetSection("Sqlite")
+                .Get<SqliteConfiguration>();
+
             serviceCollection.AddDbContext<EsvBibleContext>(builder =>
             {
-                builder.UseNpgsql(configuration.GetConnectionString(ConnectionStringConstants.ThriveDbConnection));
+                /*builder.UseNpgsql(configuration.GetConnectionString(ConnectionStringConstants.ThriveDbConnection));*/
+                builder.UseSqlite(sqliteConfig.Location);
             });
 
             serviceCollection.AddScoped<IEsvBibleContext, EsvBibleContext>();

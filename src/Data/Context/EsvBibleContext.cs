@@ -21,9 +21,9 @@ namespace BibleUpload.Data.Context
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasSequence($"\"{schema}\".\"Book_Id_seq\"");
+            /*modelBuilder.HasSequence($"\"{schema}\".\"Book_Id_seq\"");
             modelBuilder.HasSequence($"\"{schema}\".\"Chapter_Id_seq\"");
-            modelBuilder.HasSequence($"\"{schema}\".\"Verse_Id_seq\"");
+            modelBuilder.HasSequence($"\"{schema}\".\"Verse_Id_seq\"");*/
             
             modelBuilder.Entity<EsvBook>(book =>
             {
@@ -32,7 +32,7 @@ namespace BibleUpload.Data.Context
                 book.HasMany(x => x.Chapters);
                 book.Property(u => u.Id)
                     .ValueGeneratedOnAdd()
-                    .HasDefaultValueSql($"nextval('\"{schema}\".\"Book_Id_seq\"'::regclass)");
+                    /*.HasDefaultValueSql($"nextval('\"{schema}\".\"Book_Id_seq\"'::regclass)")*/;
 
             });
 
@@ -43,7 +43,7 @@ namespace BibleUpload.Data.Context
                 chapter.HasMany(x => x.Verses);
                 chapter.Property(u => u.Id)
                     .ValueGeneratedOnAdd()
-                    .HasDefaultValueSql($"nextval('\"{schema}\".\"Chapter_Id_seq\"'::regclass)");
+                    /*.HasDefaultValueSql($"nextval('\"{schema}\".\"Chapter_Id_seq\"'::regclass)")*/;
             });
             
             modelBuilder.Entity<EsvVerse>(verse =>
@@ -52,7 +52,7 @@ namespace BibleUpload.Data.Context
                 verse.HasKey(x => x.Id);
                 verse.Property(u => u.Id)
                     .ValueGeneratedOnAdd()
-                    .HasDefaultValueSql($"nextval('\"{schema}\".\"Verse_Id_seq\"'::regclass)");
+                    /*.HasDefaultValueSql($"nextval('\"{schema}\".\"Verse_Id_seq\"'::regclass)")*/;
             });
         }
     }

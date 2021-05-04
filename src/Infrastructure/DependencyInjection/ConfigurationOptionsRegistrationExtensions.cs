@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using BibleUpload.Infrastructure.Constants;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,9 @@ namespace BibleUpload.Infrastructure.DependencyInjection
 
             serviceCollection.AddOptions();
 
+            serviceCollection.AddOptions<SqliteConfiguration>()
+                .Bind(configuration.GetSection(ConfigurationConstants.Sqlite));
+            
             return serviceCollection;
         }
     }
